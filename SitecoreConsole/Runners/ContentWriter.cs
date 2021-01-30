@@ -39,6 +39,7 @@ namespace SitecoreConsole.Runners
                     CustomConsoleLogger.Log($"{path} must have a language version of {language}", ConsoleColor.Red);
                     return;
                 }
+                if (!options.ShouldWrite(rootContent)) goto NEXT;
                 rootContent.Fields.ReadAll();
                 enContent.Fields.ReadAll();
                 var includedFields = enContent.Fields.Where(f =>
@@ -69,6 +70,7 @@ namespace SitecoreConsole.Runners
                             $"Updated content {rootContent.Paths.FullPath} found {fieldCount} fields",
                             ConsoleColor.DarkMagenta);
                 }
+                NEXT:
                 foreach (Item child in rootContent.Children)
                 {
                     ScanItem(child.Paths.FullPath);
